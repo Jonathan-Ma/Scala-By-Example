@@ -1,11 +1,15 @@
+import scala.language.postfixOps
+
 object Ch2{
   def main(args: Array[String]): Unit = {
     val array = Array(23,34,63,21,26,6,7,47,1,74,37,37,23,33,46,43,22)
+    // need a new array because sort2 function returns a
+    // new array while argument array is unchanged
     val ar = sort2(array)
     for(a <- ar)
       print(a + " ")
   }
-  // Quicksort implmentation
+  // Quicksort implementation imperative like
   def sort(xs: Array[Int]) {
     def swap(i: Int, j: Int) {
       val t = xs(i); xs(i) = xs(j); xs(j) = t
@@ -34,10 +38,18 @@ object Ch2{
     else {
       //find the pivot
       val pivot = xs(xs.length / 2)
+      // concatenating sorted arrays using filter to get array of ints >pivot <pivot ==pivot
       Array.concat(
-        sort2(xs filter (pivot > _)),
-        xs filter (pivot == _),
-        sort2(xs filter (pivot < _)))
+        sort2(xs filter (pivot >)),
+        xs filter (pivot ==),
+        sort2(xs filter (pivot <)))
+      /*
+       * The three filter functions are higher order functions because
+       * they take in another function "pivot >", "pivot > " is a PARTIALLY
+       * APPLIED function. Equivalent way of writing it is "x => pivot > x".
+       * The function in filter is also an anonymous function because it has no name
+       *
+       */
     }
   }
 }

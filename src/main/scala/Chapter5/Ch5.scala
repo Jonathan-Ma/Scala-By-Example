@@ -14,6 +14,10 @@ object Ch5 {
     println()
     println("Currying version sumInts: " + sumInts3(1, 5))
     println("Currying version sumSquares: " + sumSquare3(1, 5))
+    println()
+    println("Tail recursion version sum ints: " + sum4(1, 5))
+    println()
+    println("Function that computes function product: " + f(1, 5))
   }
 
   /*
@@ -108,4 +112,27 @@ object Ch5 {
     def sumInts3 = sum2(x => x)
     def sumSquare3 = sum2(x => x * x)
 
+    //tail recursion of sum ints
+    def sumInts4(f: Int => Int)(a: Int, b:Int): Int = {
+      def iter(a: Int, result: Int): Int = {
+        if(a > b) result
+        else iter(a + 1, result + a)
+      }
+      iter(a, 0)
+    }
+  def sum4 = sumInts4(x => x)(_, _)
+
+    // Function product that computes the product of the values of
+    // functions at points over a given range.
+    def f = product(x => x + 4)(x => x + 3)(_,_)
+    def product(f: Int => Int)(g: Int => Int)(a: Int, b: Int): Int = {
+      def compute(a: Int, result: Array): Int = {
+        if (a > b) result
+        else {
+          print(f(a) * g(a) + " ")
+          compute(a + 1, result(a) = (f(a) * g(a)) )
+        }
+      }
+      compute(a, array[])
+    }
 }
