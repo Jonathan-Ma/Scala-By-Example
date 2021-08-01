@@ -126,13 +126,36 @@ object Ch5 {
     // functions at points over a given range.
     def f = product(x => x + 4)(x => x + 3)(_,_)
     def product(f: Int => Int)(g: Int => Int)(a: Int, b: Int): Int = {
-      def compute(a: Int, result: Array): Int = {
+      def compute(a: Int, result: Int): Int = {
         if (a > b) result
         else {
-          print(f(a) * g(a) + " ")
-          compute(a + 1, result(a) = (f(a) * g(a)) )
+          compute(a + 1, f(a) * g(a))
         }
       }
-      compute(a, array[])
+      compute(a, 0)
     }
+
+  /**********************************************************************************************************
+   * 5.3 Example: Finding Fixed Points of Functions
+   *********************************************************************************************************/
+  /*
+   * A number x is called the fixed of a function f if
+   * f(x) = x
+   * For some functions f, we can locate the fixed point by beginning
+   * with a initial guess and apply function f repeatedly until the value
+   * does not change anymore or within a tolerance value. This is possible
+   * if the sequence x, f(x), f(f(f)), f(f(f(x))) converges to fixed point of f
+   * This idea is captured in the following “fixed-point
+   * finding function”:
+   */
+  val tolerance = 0.0001
+  def isCloseEnough(x: Double, y: Double) = abs((x - y) / x) < tolerance
+  def fixedPoint(f: Double => Double)(firstGuess: Double) = {
+    def iterate(guess: Double): Double = {
+      val next = f(guess)
+      if (isCloseEnough(guess, next)) next
+      else iterate(next)
+    }
+    iterate(firstGuess)
+  }
 }
