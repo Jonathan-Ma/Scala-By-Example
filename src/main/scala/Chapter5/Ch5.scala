@@ -17,7 +17,7 @@ object Ch5 {
     println()
     println("Tail recursion version sum ints: " + sum4(1, 5))
     println()
-    println("Function that computes function product: " + f(1, 5))
+    println("Function that computes function product: " + product(x => x+3)(x=>x+4)(1, 5))
   }
 
   /*
@@ -124,17 +124,18 @@ object Ch5 {
 
     // Function product that computes the product of the values of
     // functions at points over a given range.
-    def f = product(x => x + 4)(x => x + 3)(_,_)
-    def product(f: Int => Int)(g: Int => Int)(a: Int, b: Int): Int = {
-      def compute(a: Int, result: Int): Int = {
-        if (a > b) result
-        else {
-          compute(a + 1, f(a) * g(a))
-        }
-      }
-      compute(a, 0)
-    }
 
+  def product(f: Int => Int)(g: Int => Int)(a: Int, b: Int): Int = {
+    def compute(a: Int, result: Int): Int = {
+      if (a > b) result
+      else {
+        val c = f(a) * g(a)
+        println(s"Intermediate result: $c")
+        compute(a + 1, c)
+      }
+    }
+    compute(a, 0)
+  }
   /**********************************************************************************************************
    * 5.3 Example: Finding Fixed Points of Functions
    *********************************************************************************************************/
