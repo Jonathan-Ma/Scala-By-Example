@@ -7,7 +7,8 @@ import scala.sys.error
  *********************************************************************/
 object Ch7{
   def main(args: Array[String]): Unit = {
-
+    val n = eval(new Sum(new Number(1),new Number(2)))
+    println(n)
   }
   /*
    * Say we want to write an interpreter for arithmetic expressions.
@@ -38,5 +39,20 @@ object Ch7{
     def numValue: Int = error("Sum.numValue")
     def leftOp: Expr = e1
     def rightOp: Expr = e2
+  }
+  def eval(e: Expr): Int = {
+    if (e.isNumber) e.numValue
+    else if (e.isSum) eval(e.leftOp) + eval(e.rightOp)
+    else error("unrecognized expression kind")
+  }
+  def print(e: Expr) {
+    if (e.isNumber) Console.print(e.numValue)
+    else if (e.isSum) {
+      Console.print("(")
+      print(e.leftOp)
+      Console.print("+")
+      print(e.rightOp)
+      Console.print(")")
+    } else error("unrecognized expression kind")
   }
 }
