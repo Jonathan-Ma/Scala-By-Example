@@ -4,7 +4,12 @@ package Chapter6
  ***************************************************************************/
 object Ch6{
   def main(args: Array[String]): Unit = {
-    def apply(c: Int, d: Int) = new Rational(c, d)
-    println(apply(10,2))
+    var i = 1
+    var x = new Rational(0, 1)
+    while (i <= 10) {
+      x += new Rational(1, i)
+      i += 1
+    }
+    println("" + x.numer + "/" + x.denom)
   }
 }
