@@ -1,14 +1,15 @@
 package Chapter7
 
-import scala.sys.error
+//import scala.sys.error
 
 /*********************************************************************
  * Chapter 7 Case Classes and Pattern Matching
  *********************************************************************/
 object Ch7{
   def main(args: Array[String]): Unit = {
-    val n = eval(new Sum(new Number(1),new Number(2)))
-    println(n)
+    //val n = eval(new Sum(new Number(1),new Number(2)))
+    //println(n)
+    println(new Sum(new Number(1), new Number(2)).print + "=" + new Sum(new Number(1), new Number(2)).eval)
   }
   /*
    * Say we want to write an interpreter for arithmetic expressions.
@@ -19,6 +20,9 @@ object Ch7{
    * new Sum(new Number(1), new Sum(new Number(3), new Number(7))).
    *
    */
+  /*
+   * // commented out to demonstrate a decomposed version
+
   abstract class Expr {
     def isNumber: Boolean
     def isSum: Boolean
@@ -54,5 +58,24 @@ object Ch7{
       print(e.rightOp)
       Console.print(")")
     } else error("unrecognized expression kind")
+  }
+*/
+  abstract class Expr{
+    def eval: Int
+    def print(): Unit
+  }
+  class Number(n: Int) extends Expr{
+    def eval: Int = n
+    def print(): Unit = { Console.print(n) }
+  }
+  class Sum(e1: Expr, e2: Expr){
+    def eval: Int = e1.eval + e2.eval
+    def print(): Unit = {
+      Console.print("(")
+      Console.print(e1.eval)
+      Console.print("+")
+      Console.print(e2.eval)
+      Console.print(")")
+    }
   }
 }
