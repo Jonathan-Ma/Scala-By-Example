@@ -9,7 +9,9 @@ object Ch7{
   def main(args: Array[String]): Unit = {
     //val n = eval(new Sum(new Number(1),new Number(2)))
     //println(n)
-    println(new Sum(new Number(1), new Number(2)).print + "=" + new Sum(new Number(1), new Number(2)).eval)
+    val total = Sum(Number(2),Number(3))
+    total.print()
+    println(s" = ${total.eval.toString}")
   }
   /*
    * Say we want to write an interpreter for arithmetic expressions.
@@ -59,16 +61,40 @@ object Ch7{
       Console.print(")")
     } else error("unrecognized expression kind")
   }
-*/
+  */
+
+  /*
+  * The above program would be tedious if we need to add another method
+  * such as prod for Product. We can reuse existing, unmodified code
+  * through inheritance. We can do this by making the "high-level"
+  * eval into a method of each expression class instead of implementing
+  * it as a function outside of the expression class hierarchy.
+  *
+  * The idea is that object oriented decomposition is preferable for
+  * constructing systems that should be extensible for new types
+  * of data.
+  *
+  * Just like the eval external function, the print function can
+  * also be decomposed and implemented into each class node.
+  * When a system is extended with new operations, all classes must
+  * be modified.
+  *
+  */
+
   abstract class Expr{
     def eval: Int
     def print(): Unit
   }
-  class Number(n: Int) extends Expr{
+  /*
+   * Without the "case" we would need to create object using "new"
+   * with the case class, a constructor function is added implicitly
+   * i.e. def Number(n: Int) = new Number(n)
+   */
+  case class Number(n: Int) extends Expr{
     def eval: Int = n
     def print(): Unit = { Console.print(n) }
   }
-  class Sum(e1: Expr, e2: Expr){
+  case class Sum(e1: Expr, e2: Expr){
     def eval: Int = e1.eval + e2.eval
     def print(): Unit = {
       Console.print("(")
