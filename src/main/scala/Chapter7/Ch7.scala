@@ -9,9 +9,10 @@ object Ch7{
   def main(args: Array[String]): Unit = {
     //val n = eval(new Sum(new Number(1),new Number(2)))
     //println(n)
-    val total = Sum(Number(2),Number(3))
-    total.print()
-    println(s" = ${total.eval.toString}")
+//    val total = Sum(Number(2),Number(3))
+//    total.print()
+//    println(s" = ${total.eval.toString}")
+    Sum(Number(2), Number(3)).print()
   }
   /*
    * Say we want to write an interpreter for arithmetic expressions.
@@ -85,10 +86,33 @@ object Ch7{
     def eval: Int
     def print(): Unit
   }
-  /*
-   * Without the "case" we would need to create object using "new"
-   * with the case class, a constructor function is added implicitly
+  /* -----------------------------------------------------
+   * Adding a case prefix has 4 effects
+   *
+   * 1. A constructor function is added implicitly
    * i.e. def Number(n: Int) = new Number(n)
+   *             --------------------
+   * 2. Case class and case objects implicitly comes
+   *  with methods toString, equals, and hashcode.
+   *
+   * toString converts Sum(Number(2), Number(3)).print()
+   * exactly like the structure while normal class returns
+   * the class name and a number
+   *
+   * Equals method allows us to compare two identical
+   * case objects, Sum(Number(2), Number(3)) == Sum(Number(2), Number(3))
+   * is true while normal classes treats each object unique
+   * when called by separate constructors
+   *            --------------------
+   * 3. Case classes implicitly come with nullary accessor
+   * methods which retrieve the constructor arguments.
+   *
+   * For instance, for a value s of type Sum, s.e1 would access the left
+   * operand of Sum.
+   *            --------------------
+   * 4. Case classes allow the constructions of patterns which refer
+   * to the case class constructor.
+   *
    */
   case class Number(n: Int) extends Expr{
     def eval: Int = n
@@ -104,4 +128,13 @@ object Ch7{
       Console.print(")")
     }
   }
+
+  /*****************************************************************************
+   * 7.1 Pattern Matching
+   ****************************************************************************/
+  /*
+   * Pattern matching is generalization to C and Javas switch statements.
+   * Instead of switch, scala uses match which is defined in scala's root
+   * class Any, and therefore is available for all objects.
+   */
 }
