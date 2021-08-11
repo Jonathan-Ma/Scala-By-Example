@@ -133,8 +133,49 @@ object Ch7{
    * 7.1 Pattern Matching
    ****************************************************************************/
   /*
-   * Pattern matching is generalization to C and Javas switch statements.
+   * Pattern matching is generalization of C and Javas switch statements.
    * Instead of switch, scala uses match which is defined in scala's root
    * class Any, and therefore is available for all objects.
+   */
+  // pattern matching of eval
+  // e is called the selector value
+  def eval(e: Expr): Int = e match{
+    // arguments are called pattern variables
+    case Number(n: Int) => n
+    case Sum(l, r) => eval(l) + eval(r)
+  }
+  /*
+   * Each case associates a pattern with an expression. Patterns are
+   * matched against the selector value e. The first pattern in this
+   * example is Number(n), matches all values of the form Number(v),
+   * v is arbitrary. The pattern variable n is bound to v. Similarly,
+   * the pattern Sum(v1, v2) binds the pattern variable l, r to v1 and
+   * v2 respectively.
+   *
+   * In general, patterns are built from:
+   * 1. case class constructors e.g. Number, Sum whose arguments are patterns
+   * 2. Pattern variables e.g. n, l, r
+   * 3. The wildcard pattern "_"
+   * 4. literals e.g. 1, true, "abc"
+   * 5. constant identifiers, e.g. MAXINT , EmptySet .
+   *              ---------------------
+   * Pattern variables must start with lower case to be distinguished
+   * from constant identifiers. Each variable also must be unique, Sum(x, x)
+   * is illegal
+   *              ---------------------
+   * Pattern matching goes through the case list in order to find
+   * the pattern. e match { case p 1 => e 1 ... case p n => e n }
+   * matches in p1...pn in order.
+   *              ---------------------
+   * A constructor C(p1...pn) matches all values of type C(or subtype)
+   * that have been constructed with C-arguments matching patterns (p1...pn)
+   *
+   * A variable pattern x matches with any value and binds the variable name
+   * to that value
+   *
+   * Wildcard matches the value but does not bind the name
+   *              ---------------------
+   * 
+   *
    */
 }
