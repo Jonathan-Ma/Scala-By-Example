@@ -13,6 +13,8 @@ object Ch7{
 //    total.print()
 //    println(s" = ${total.eval.toString}")
     Sum(Number(2), Number(3)).print()
+    val x = eval(Sum(Number(2), Number(3)))
+    println(s" = ${x}")
   }
   /*
    * Say we want to write an interpreter for arithmetic expressions.
@@ -118,7 +120,7 @@ object Ch7{
     def eval: Int = n
     def print(): Unit = { Console.print(n) }
   }
-  case class Sum(e1: Expr, e2: Expr){
+  case class Sum(e1: Expr, e2: Expr) extends Expr {
     def eval: Int = e1.eval + e2.eval
     def print(): Unit = {
       Console.print("(")

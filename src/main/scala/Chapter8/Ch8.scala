@@ -4,7 +4,12 @@ import scala.sys.error
 
 object Ch8 {
   def main(args: Array[String]): Unit = {
+    val x = new EmptyStack[Int]
+    val y = x.push(1).push(2)
+    val z = x.push(1).push(2)
 
+    println(y.pop.top)
+    println(isPrefix(z,y))
   }
   // Scala classes can have type parameters
   abstract class Stack[A] {
@@ -29,5 +34,25 @@ object Ch8 {
    * in brackets instead of parentheses to distinguish from value
    * parameters.
    *
+   * It is also possible to parameterize methods with types.
+   * An example is a generic method that determines if one stack
+   * is a prefix of another:
    */
+  def isPrefix[A](a: Stack[A], b: Stack[A]) :Boolean = {
+    a.isEmpty || a.top == b.top && isPrefix(a.pop, b.pop)
+  }
+  /*
+   * The method parameters are called polymorphic which is
+   * greek for "have many forms".
+   *              -------------------
+   * Local type inferences: when we create an object with generic
+   * parameters such as: isPrefix[int] = (x, y) we can omit
+   * the [int] because scala inferences the type by the expected
+   * result or the functions value parameters. Polymorphic
+   * functions can omit the type.
+   */
+  /*******************************************************************
+   * 8.1 Type parameter bounds
+   ******************************************************************/
+
 }
