@@ -1,15 +1,18 @@
 package Chapter8
 
+import scala.annotation.tailrec
 import scala.sys.error
 
 object Ch8 {
   def main(args: Array[String]): Unit = {
-    val x = new EmptyStack[Int]
-    val y = x.push(1).push(2)
-    val z = x.push(1).push(2)
-
-    println(y.pop.top)
-    println(isPrefix(z,y))
+//    val x = new EmptyStack[Int]
+//    val y = x.push(1).push(2)
+//    val z = x.push(1).push(2)
+//    println(y.pop.top)
+//    println(isPrefix(z,y))
+    // 8.1
+    val set = new EmptySet[Num].incl(Num(2.0)).incl(Num(3.0))
+    println(set.contains(Num(2.0)))
   }
   // Scala classes can have type parameters
   abstract class Stack[A] {
@@ -38,6 +41,7 @@ object Ch8 {
    * An example is a generic method that determines if one stack
    * is a prefix of another:
    */
+  @tailrec
   def isPrefix[A](a: Stack[A], b: Stack[A]) :Boolean = {
     a.isEmpty || a.top == b.top && isPrefix(a.pop, b.pop)
   }
@@ -54,5 +58,56 @@ object Ch8 {
   /*******************************************************************
    * 8.1 Type parameter bounds
    ******************************************************************/
+  /*
+   * Previously we had IntSets which we could generalize as so:
+   * abstract class Set[A] {
+   *  def incl(x: A): Set[A]
+   *  def contains(x: A): Boolean
+   * }
+   *
+   * But the problem is we can't compare elements with &&, it was
+   * ok for type Int because it had && compare method. But arbitrary
+   * types is problematic.
+   * For example:
+   * def contains(x: Int): Boolean =
+   *   if (x < elem) left contains x
+   *         ^ < not a member of type A.
+   * We can solve this by restricting the types allowed for A
+   * that can use the method &&.
+   * In scala standard class library there is a trait Ordered[A].
+   * It represents values which are comparable (via &&) to type A.
+   */
 
+  trait Set[A <: Ordered[A]]{
+    def incl(x: A): Set[A]
+    def contains(x: A): Boolean
+  }
+  class EmptySet[A <: Ordered[A]] extends Set[A]{
+    def incl(x: A) = new NonEmptySet(x, new EmptySet[A], new EmptySet[A])
+    def contains(x: A): Boolean = false
+  }
+  class NonEmptySet[A <: Ordered[A]](elem: A, left: Set[A], right: Set[A]) extends Set[A] {
+    def contains(x: A): Boolean =
+      if (x < elem) left contains x
+      else if (x > elem) right contains x
+      else true
+    def incl(x: A): Set[A] =
+      if (x < elem) new NonEmptySet[A](elem, left incl x, right)
+      else if (x > elem) new NonEmptySet[A](elem, left, right incl x)
+      else this
+  }
+//    trait Ordered[A]{
+//      def compare(that: A): Int
+//      def < (that: A): Boolean = (this compare that) < 0
+//      def > (that: A): Boolean = (this compare that) > 0
+//      def <= (that: A): Boolean = (this compare that) <= 0
+//      def >= (that: A): Boolean = (this compare that) >= 0
+//      def compareTo(that: A):Int = compare(that)
+//    }
+    case class Num(x: Double) extends Ordered[Num]{
+      def compare(that: Num) =
+        if (this.x < that.x) -1
+        else if (this.x > that.x) 1
+        else 0
+    }
 }
