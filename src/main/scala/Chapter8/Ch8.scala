@@ -96,18 +96,27 @@ object Ch8 {
       else if (x > elem) new NonEmptySet[A](elem, left, right incl x)
       else this
   }
-//    trait Ordered[A]{
-//      def compare(that: A): Int
-//      def < (that: A): Boolean = (this compare that) < 0
-//      def > (that: A): Boolean = (this compare that) > 0
-//      def <= (that: A): Boolean = (this compare that) <= 0
-//      def >= (that: A): Boolean = (this compare that) >= 0
-//      def compareTo(that: A):Int = compare(that)
-//    }
     case class Num(x: Double) extends Ordered[Num]{
       def compare(that: Num) =
         if (this.x < that.x) -1
         else if (this.x > that.x) 1
         else 0
     }
+  /*
+   * Type bounds require forethought, we can also use view bounds "<%",
+   * which are weaker than plain bounds. View bounds only specifies that
+   * [A <% T] type A must be convertible to bound type T using implicit conversion.
+   */
+  /*******************************************************************
+   * 8.2 Variance Annotations
+   ******************************************************************/
+  /*
+   * The property co-variant is defined as: if type T is a subtype of S, then
+   * Stack[T] is a subtype of Stack[S]. But Scala generic types have default
+   * non-variant subtyping. This means that elements of different types will never
+   * have a subtyping relation. But we can change that by using prefix + in
+   * front of a generic type like so:
+   * class Stack[+A]. There is also prefix - that means contravariant,
+   * which means if type T is a subtype of S then S is subtype of T.
+   */
 }
