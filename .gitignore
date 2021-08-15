@@ -1,4 +1,5 @@
 build/
+.bsp
 target/
 .idea/
 .idea_modules

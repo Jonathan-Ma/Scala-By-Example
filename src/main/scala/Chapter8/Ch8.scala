@@ -119,4 +119,17 @@ object Ch8 {
    * class Stack[+A]. There is also prefix - that means contravariant,
    * which means if type T is a subtype of S then S is subtype of T.
    */
+  // Example of covariance
+  class Animal
+  class Dog extends Animal
+  class myList[+T]
+  /* The +T indicates subtyping, since dog is a subtype of animal
+   * then we can replace a list of animal with list of dog.*/
+  val animals: myList[Animal] = new myList[Dog]
+  /*******************************************************************
+   * 8.3 Lower Bounds
+   ******************************************************************/
+  /*
+   *
+   */
 }
