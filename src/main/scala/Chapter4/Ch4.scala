@@ -5,7 +5,6 @@ object Ch4 {
   def main(args: Array[String]): Unit = {
     println(sqrt(1.0e20))
     println(factorial(5))
-    println(h(2))
   }
 
   def sqrt(x: Double): Double = sqrtIter(1.0, x)

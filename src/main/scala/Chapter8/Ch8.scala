@@ -5,12 +5,12 @@ import scala.sys.error
 
 object Ch8 {
   def main(args: Array[String]): Unit = {
-//    val x = new EmptyStack[Int]
-//    val y = x.push(1).push(2)
-//    val z = x.push(1).push(2)
-//    println(y.pop.top)
-//    println(isPrefix(z,y))
-    // 8.1
+    val x = new EmptyStack[Int]
+    val y = x.push(1).push(2)
+    val z = x.push(1).push(2)
+    println(y.pop.top)
+    println(isPrefix(z,y))
+     // 8.1
     val set = new EmptySet[Num].incl(Num(2.0)).incl(Num(3.0))
     println(set.contains(Num(2.0)))
   }
