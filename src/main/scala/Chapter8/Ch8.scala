@@ -225,5 +225,16 @@ object Ch8 {
   /*******************************************************************
    * 8.6 Functions
    ******************************************************************/
+  /*
+   * Functions are objects in Scala. For instance, a function from type String
+   * to type Int is represented as an instance of the trait Function1[String, Int].
+   */
+  val plus1: (Int => Int) = (x: Int) => x + 1
+
+  // Above function can be expanded to below
+  val plus2: Function1[Int, Int] = new Function1[Int, Int] {
+    override def apply(v1: Int): Int = v1 + 1
+  }
+  // to use function 1 plus1(3) is equivalent to second functions plus2.apply(3)
   
 }
