@@ -236,5 +236,5 @@ object Ch8 {
     override def apply(v1: Int): Int = v1 + 1
   }
   // to use function 1 plus1(3) is equivalent to second functions plus2.apply(3)
-  
+
 }
