@@ -4,8 +4,9 @@ object Ch9 {
   def main(args: Array[String]): Unit = {
     for(x <- fruit)
       println(x)
-    val listInt = 1 :: 4 :: 6 :: 2 :: 3 :: 9 :: 2 :: Nil
-    println(isort(listInt))
+    val listInt = 10 :: 4 :: 6 :: 2 :: 3 :: 9 :: 2 :: Nil
+    println("Insertion sort: " + isort(listInt))
+    println("Pattern match insertion sort: " + isort2(listInt))
   }
   /*******************************************************************
    * Chapter 9 Lists
@@ -43,5 +44,19 @@ object Ch9 {
   def isort(xs: List[Int]): List[Int] =
     if (xs.isEmpty) Nil
     else insert(xs.head, isort(xs.tail))
-  def insert(a: Int, b: List[Int]): List[Int] = a :: b.sorted
+  def insert(a: Int, b: List[Int]): List[Int] =
+    if (b.isEmpty || a <= b.head) a :: b
+    else b.head :: insert(a, b.tail)
+  /*
+   * List patterns. The cons operator :: is a case class, therefore we can
+   * decompose it by pattern matching, isort can be written as follow:
+   */
+  def isort2(list: List[Int]): List[Int] = list match{
+    case List() => List()
+    case x :: xs => insert2(x, isort2(xs))
+  }
+  def insert2(x: Int, xs: List[Int]): List[Int] = xs match{
+    case List() => List(x)
+    case y :: ys => if(x <= y) x :: xs else y :: insert2(x, ys)
+  }
 }
