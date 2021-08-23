@@ -4,6 +4,8 @@ object Ch9 {
   def main(args: Array[String]): Unit = {
     for(x <- fruit)
       println(x)
+    val listInt = 1 :: 4 :: 6 :: 2 :: 3 :: 9 :: 2 :: Nil
+    println(isort(listInt))
   }
   /*******************************************************************
    * Chapter 9 Lists
@@ -37,4 +39,9 @@ object Ch9 {
    * 2. Tail: returns ALL elements after the first element
    * 3. Head: returns first element
    */
+  // Exercise 9.1.1
+  def isort(xs: List[Int]): List[Int] =
+    if (xs.isEmpty) Nil
+    else insert(xs.head, isort(xs.tail))
+  def insert(a: Int, b: List[Int]): List[Int] = a :: b.sorted
 }
