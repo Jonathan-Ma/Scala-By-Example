@@ -5,8 +5,25 @@ object Ch9 {
     for(x <- fruit)
       println(x)
     val listInt = 10 :: 4 :: 6 :: 2 :: 3 :: 9 :: 2 :: Nil
+    println("Example list: " + listInt)
     println("Insertion sort: " + isort(listInt))
     println("Pattern match insertion sort: " + isort2(listInt))
+    val drop = listInt drop 2
+    val take = listInt take 3
+    val split = listInt splitAt 4
+    val apply = listInt.apply(3)
+    println("xs drop 2: " + drop)
+    println("xs take 3: " + take)
+    println("xs splitAt 4: " + split)
+    println("xs.apply(3): " + apply)
+    val listInt2 = List(1 ,3, 6, 4, 7, 5, 9, 2)
+    println("Second example list: " + listInt2)
+    val zipList = listInt zip listInt2
+    println("Zipping list 1 and 2: " + zipList)
+    val map = listInt map (x => x * 3)
+    println(map)
+    println("Squares all elements in list using recursion: " + squareList2(listInt))
+    println("Square all elements using map: " + squareList(listInt))
   }
   /*******************************************************************
    * Chapter 9 Lists
@@ -59,4 +76,46 @@ object Ch9 {
     case List() => List(x)
     case y :: ys => if(x <= y) x :: xs else y :: insert2(x, ys)
   }
+  /*******************************************************************
+   * 9.2 Definition of class List I: First Order Methods
+   ******************************************************************/
+  /*
+   * xs.last returns the last element of a list and xs.init returns
+   * all elements except the last element. Both of these needs to
+   * traverse the list to get the result.
+   *
+   * (xs drop n): drops the first n elements of the list
+   * (xs take n): returns the first n elements or whole list
+   * if n is bigger than the list length
+   * (xs splitAt n): splits the list by n and returns the two list
+   * The xs.apply(n) method is analogous to drop(n).head, in other words,
+   * drop n elements and return the succeeding element(not the tail
+   * of taking away n elements).
+   *
+   * Zipping a list. xs zip ys yields List((x1,y1)...(xn,yn)). If the list
+   * has different lengths then the longer one is truncated.
+   *
+   * Concatenating lists we can use ":::". xs ::: yx results in all
+   * xs elements followed by ys elements.
+   */
+  /*******************************************************************
+   * 9.3 Example: Merge Sort
+   ******************************************************************/
+
+  /*******************************************************************
+   * 9.4 Definition of class List II: Higher-Order Methods
+   ******************************************************************/
+  /*
+   * Map method xs map (A => B), we can use this to scale a list by a factor
+   * like xs map (x => x * 3), this returns a list of the original list
+   * elements multiplied by 3.
+   */
+  // method to square all elements in list
+  def squareList2(xs: List[Int]): List[Int] = xs match {
+    case List() => Nil
+    case y :: ys => (y * y) :: squareList2(ys)
+  }
+  // method using map to square all elements
+  def squareList(xs: List[Int]): List[Int] =
+    xs map (x => x * x)
 }
