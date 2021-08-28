@@ -2,6 +2,7 @@ package Chapter9
 
 object Ch9 {
   def main(args: Array[String]): Unit = {
+    println()
     for(x <- fruit)
       println(x)
     val listInt = 10 :: 4 :: 6 :: 2 :: 3 :: 9 :: 2 :: Nil
@@ -20,10 +21,21 @@ object Ch9 {
     println("Second example list: " + listInt2)
     val zipList = listInt zip listInt2
     println("Zipping list 1 and 2: " + zipList)
+    // using map to do something will all elements
     val map = listInt map (x => x * 3)
     println(map)
     println("Squares all elements in list using recursion: " + squareList2(listInt))
     println("Square all elements using map: " + squareList(listInt))
+    // filtering list for positive integers
+    val newList = List(-1,3,-4,5,-3,7,-8,8,-9)
+    println("Positive ints in a list: " + posInts(newList))
+    println(s"positive ints in list using filter${posInt2(newList)}")
+    // forall and List.range to find prime numbers
+    println(s"forall and list.range() to check is a number is prime: ${isPrime(11)}")
+    // reduceleft
+    println(listInt.reduceLeft((x,y)=>(x * y)))
+    println((listInt foldLeft 2) {(x, y) => x * y})
+    println()
   }
   /*******************************************************************
    * Chapter 9 Lists
@@ -118,4 +130,24 @@ object Ch9 {
   // method using map to square all elements
   def squareList(xs: List[Int]): List[Int] =
     xs map (x => x * x)
+
+  /*
+   * Filtering lists. A function that returns a list of positive integers
+   */
+  def posInts(xs: List[Int]): List[Int] = xs match{
+    case Nil => Nil
+    case x :: ys => if(x >= 0) x :: posInts(ys) else posInts(ys)
+  }
+  // using "filter" method
+  def posInt2(xs: List[Int]): List[Int] = {
+    xs filter(x => x >= 0)
+  }
+  // using "List.range(x,y)" and "forall" to find prime numbers from 2 to n excluding n
+  def isPrime(n: Int) =
+    List.range(2, n) forall(x => n % x != 0)
+  /*
+   * Folding and reducing lists. Another common operation is to combine the elements
+   * with some operator such as sum(List(x1..xn))
+   */
+
 }
