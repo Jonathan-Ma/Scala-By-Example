@@ -148,6 +148,7 @@ object Ch9 {
   /*
    * Folding and reducing lists. Another common operation is to combine the elements
    * with some operator such as sum(List(x1..xn))
+   * 
    */
 
 }
