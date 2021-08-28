@@ -33,7 +33,7 @@ object Ch9 {
     // forall and List.range to find prime numbers
     println(s"forall and list.range() to check is a number is prime: ${isPrime(11)}")
     // reduceleft
-    println(listInt.reduceLeft((x,y)=>(x * y)))
+    println(listInt.reduceLeft((x,y)=> x * y))
     println((listInt foldLeft 2) {(x, y) => x * y})
     println()
   }
