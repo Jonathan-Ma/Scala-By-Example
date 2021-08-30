@@ -35,6 +35,11 @@ object Ch9 {
     // reduceleft
     println(listInt.reduceLeft((x,y)=> x * y))
     println((listInt foldLeft 2) {(x, y) => x * y})
+    println(
+      List.range(1, 7)
+        .flatMap(i => List.range(1, i).map(x => (i, x)))
+    )
+
     println()
   }
   /*******************************************************************
@@ -148,7 +153,7 @@ object Ch9 {
   /*
    * Folding and reducing lists. Another common operation is to combine the elements
    * with some operator such as sum(List(x1..xn))
-   * 
+   *
    */
 
 }
